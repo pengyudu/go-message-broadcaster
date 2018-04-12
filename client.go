@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"fmt"
 	"io"
-	"time"
+	"log"
 )
 
 type ClientID string
@@ -55,12 +55,10 @@ func (m *Client) listenWrite() {
 		case msg := <-m.message:
 			err := m.conn.Send(msg)
 			if err != nil {
-				m.sv.OnError(err)
+				log.Println(err)
 			}
 		case <-m.delete:
 			return
-		default:
-			time.Sleep(time.Millisecond)
 		}
 	}
 }
